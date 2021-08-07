@@ -3,16 +3,26 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:ikXM4HV3GHGuHkQRJzD7@containers-us-west-12.railway.app:7240/railway"
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-model Todo {
+model Post {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   text      String
   completed Boolean
+  userId    String?
+  User      User?    @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  login     String
+  password  String
+  Post      Post[]
 }
