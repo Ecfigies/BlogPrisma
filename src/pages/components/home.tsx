@@ -24,10 +24,6 @@ const Home = () => {
            First you need to create an railway project to work, next just need to setup the link to the project and all done, create an account and test it
           </p>
         </div>
-
-        <div className="mt-10">
-        
-        </div>
       </div>
     </div>
   );

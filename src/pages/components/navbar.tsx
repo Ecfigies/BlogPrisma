@@ -29,18 +29,17 @@ const Navbar = () => {
 						</div>
 					</div>
 				
-					<div class="hidden md:flex items-center space-x-3 ">
+					<div className="hidden md:flex items-center space-x-3 ">
 						<a href="" className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300">Log In</a>
 						<a href="" className="py-2 px-2 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300">Sign Up</a>
 					</div>
-				
 				
 				</div>
 			</div>
  
 		
-			<div class="hidden mobile-menu">
-				<ul class="">
+			<div className="hidden mobile-menu">
+				<ul className="">
 				<a href="" className="py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold ">Home</a>
 							<a href="" className="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">About it</a>
 				</ul>

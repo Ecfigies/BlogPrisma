@@ -12,7 +12,7 @@ const Index: NextPage = () => {
     <div>
       <Navbar/>
        <Home />
-        <Signup />
+        {/* <Signup /> */}
     </div>
   );
 };
