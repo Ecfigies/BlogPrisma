@@ -4,7 +4,7 @@ import axios from "axios";
 export default function Signup() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
 
   async function submitForm(e) {
     e.preventDefault();
@@ -14,18 +14,28 @@ export default function Signup() {
         password,
       })
       .then((res) => {
-        const id = res.data.id;
-        const token = res.data.token;
-        setData({ id, token });
-
-        console.log(data);
+        const payload = [
+          {
+            id: res.data.id,
+            login: res.data.login,
+            token: res.data.token,
+          },
+        ];
+        setData(payload);
       });
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        {data}
+        {data.map((res) => (
+          <div className="w-full flex flex-col items-center justify-center">
+            <h1> {res.id} </h1>
+            <h1> {res.login} </h1>
+            <h1> {res.token} </h1>
+          </div>
+        ))}
+
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
