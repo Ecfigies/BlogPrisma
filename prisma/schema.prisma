@@ -13,8 +13,7 @@ generator client {
 model Post {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  text      String
-  completed Boolean
+  text      String?
   userId    String?
   User      User?    @relation(fields: [userId], references: [id])
 }

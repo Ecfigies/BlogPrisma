@@ -1,10 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
+import Router from "next/dist/next-server/lib/router/router";
+import { useRouter } from "next/router";
 
 export default function Signup() {
+  const router = useRouter();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [data, setData] = useState([]);
+  const useUser = () => ({ user: null, loading: false });
 
   async function submitForm(e) {
     e.preventDefault();
@@ -14,28 +18,26 @@ export default function Signup() {
         password,
       })
       .then((res) => {
-        const payload = [
-          {
-            id: res.data.id,
-            login: res.data.login,
-            token: res.data.token,
-          },
-        ];
-        setData(payload);
+        const payload = {
+          id: res.data.id,
+          login: res.data.login,
+          token: res.data.token,
+          userId: res.data.id,
+        };
+
+        if (res.data.token !== null) {
+          localStorage.setItem("token", payload.token);
+          localStorage.setItem("user", payload.login);
+          localStorage.setItem("id", payload.userId);
+
+          router.push("components/home");
+        }
       });
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        {data.map((res) => (
-          <div className="w-full flex flex-col items-center justify-center">
-            <h1> {res.id} </h1>
-            <h1> {res.login} </h1>
-            <h1> {res.token} </h1>
-          </div>
-        ))}
-
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account

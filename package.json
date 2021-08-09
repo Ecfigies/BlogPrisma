@@ -12,6 +12,7 @@
     "generate": "prisma generate"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.0",
     "@prisma/client": "2.15.0",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",

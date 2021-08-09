@@ -6,6 +6,17 @@ export default async function getUsers(
   res: NextApiResponse
 ) {
   const prisma = new PrismaClient();
-  const posts = await prisma.user.findMany();
+  const { text, userId } = req.body;
+  const posts = await prisma.post.findMany();
   res.json(posts);
+
+  if (req.method === "POST") {
+    const post = await prisma.post.create({
+      data: {
+        text: text,
+        userId: userId,
+      },
+    });
+    return post;
+  }
 }

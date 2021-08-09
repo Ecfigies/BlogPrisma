@@ -36,6 +36,7 @@ export default async function verifyUser(
     );
     return res.send({ ...user, token });
   }
+
   return res.status(404).json({
     error: "Method not allowed",
   });
