@@ -2,21 +2,24 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import Navbar from "./navbar";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
+import { fileURLToPath } from "url";
 
 const Home = () => {
-  let saveData = localStorage.getItem("user");
-  let getId = localStorage.getItem("id");
+  // const saveData = localStorage.getItem("user");
+  // const getId = localStorage.getItem("id");
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
+  const [information, setInformation] = useState([]);
   const [text, setText] = useState("");
+  const [filter, setFilter] = useState("");
   const cancelButtonRef = useRef(null);
 
-  const handleSubmit = () => {
-    axios.post("/api/users", {
-      text: text,
-      userId: getId,
-    });
-  };
+  // const handleSubmit = () => {
+  //   axios.post("/api/users", {
+  //     text: text,
+  //     userId: getId,
+  //   });
+  // };
 
   const showList = () => {
     axios
@@ -40,9 +43,31 @@ const Home = () => {
     setOpen(true);
   };
 
+  function filterItems(query) {
+    return data.filter(function (f) {
+      return f.text.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    });
+  }
+
+  console.log(filterItems(filter));
+
   return (
     <div>
-      <Navbar user={saveData} />
+      <Navbar user="Alan" />
+      <div className="p-8">
+        <div className="flex items-center ">
+          <input
+            className=" w-300 py-4 px-6 text-gray-700 "
+            id="search"
+            type="text"
+            onChange={(e) => {
+              setFilter(e.target.value);
+            }}
+            placeholder="Search"
+          />
+        </div>
+      </div>
+
       <div className="flex justify-center m-10">
         <button
           className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded fixed bottom-0 right-0 m-5	"
@@ -51,12 +76,12 @@ const Home = () => {
           +
         </button>
 
-        <div className="  shadow border-b border-gray-200 sm:rounded-lg w-5/12 fixed right-400	">
+        <div className="shadow border-b border-gray-200 sm:rounded-lg w-5/12  right-400">
           {data.map((item) => {
             return (
-              <div key={item.id} className="py-2 px-4 ">
-                <div className="text-black font-bold ">{item.text}</div>
-              </div>
+              <tr onClick={() => setInformation(item.id)}>
+                <td>{item.text}</td>
+              </tr>
             );
           })}
         </div>
@@ -122,7 +147,7 @@ const Home = () => {
                     <button
                       type="button"
                       className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                      onClick={handleSubmit}
+                      // onClick={handleSubmit}
                     >
                       Send
                     </button>

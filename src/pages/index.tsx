@@ -8,9 +8,8 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 const Index: NextPage = () => {
   return (
     <div>
-      {/* <Navbar />
-      <Home /> */}
-      <Signup />
+      {/* <Navbar /> */}
+      <Home />/
     </div>
   );
 };
