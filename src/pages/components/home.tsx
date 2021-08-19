@@ -49,8 +49,6 @@ const Home = () => {
     });
   }
 
-  console.log(filterItems(filter));
-
   return (
     <div>
       <Navbar user="Alan" />
