@@ -3,10 +3,11 @@ import Navbar from "./navbar";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 import { fileURLToPath } from "url";
+import { userInfo } from "os";
 
 const Home = () => {
   // const saveData = localStorage.getItem("user");
-  // const getId = localStorage.getItem("id");
+  const getId = localStorage.getItem("id");
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [information, setInformation] = useState([]);
@@ -14,12 +15,12 @@ const Home = () => {
   const [filter, setFilter] = useState("");
   const cancelButtonRef = useRef(null);
 
-  // const handleSubmit = () => {
-  //   axios.post("/api/users", {
-  //     text: text,
-  //     userId: getId,
-  //   });
-  // };
+  const handleSubmit = () => {
+    axios.post("/api/users", {
+      text: text,
+      userId: getId,
+    });
+  };
 
   const showList = () => {
     axios
@@ -49,10 +50,12 @@ const Home = () => {
     });
   }
 
+  console.log(filterItems(filter));
+
   return (
     <div>
       <Navbar user="Alan" />
-      <div className="p-8">
+      {/* <div className="p-8">
         <div className="flex items-center ">
           <input
             className=" w-300 py-4 px-6 text-gray-700 "
@@ -64,7 +67,7 @@ const Home = () => {
             placeholder="Search"
           />
         </div>
-      </div>
+      </div> */}
 
       <div className="flex justify-center m-10">
         <button
@@ -74,14 +77,16 @@ const Home = () => {
           +
         </button>
 
-        <div className="shadow border-b border-gray-200 sm:rounded-lg w-5/12  right-400">
-          {data.map((item) => {
-            return (
-              <tr onClick={() => setInformation(item.id)}>
-                <td>{item.text}</td>
-              </tr>
-            );
-          })}
+        <div className=" border-b border-gray-200 sm:rounded-lg w-5/12  right-400">
+          <div className="card-group">
+            {data.map((item) => {
+              return (
+                <tr onClick={() => setInformation(item.id)}>
+                  <td>{item.text}</td>
+                </tr>
+              );
+            })}
+          </div>
         </div>
 
         <Transition.Root show={open} as={Fragment}>
@@ -145,7 +150,7 @@ const Home = () => {
                     <button
                       type="button"
                       className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                      // onClick={handleSubmit}
+                      onClick={handleSubmit}
                     >
                       Send
                     </button>
