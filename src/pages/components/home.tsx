@@ -2,12 +2,11 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import Navbar from "./navbar";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
-import { fileURLToPath } from "url";
-import { userInfo } from "os";
+import Carrosel from "./carrosel";
 
 const Home = () => {
   // const saveData = localStorage.getItem("user");
-  const getId = localStorage.getItem("id");
+  // const getId = localStorage.getItem("id");
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [information, setInformation] = useState([]);
@@ -18,7 +17,7 @@ const Home = () => {
   const handleSubmit = () => {
     axios.post("/api/users", {
       text: text,
-      userId: getId,
+      // userId: getId,
     });
   };
 
@@ -44,50 +43,38 @@ const Home = () => {
     setOpen(true);
   };
 
-  function filterItems(query) {
-    return data.filter(function (f) {
-      return f.text.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-    });
+  function nextSlide() {
+    let activeSlide = document.querySelector(".slide.translate-x-0");
+    activeSlide.classList.remove("translate-x-0");
+    activeSlide.classList.add("-translate-x-full");
+
+    let nextSlide = activeSlide.nextElementSibling;
+    nextSlide.classList.remove("translate-x-full");
+    nextSlide.classList.add("translate-x-0");
   }
 
-  console.log(filterItems(filter));
+  function previousSlide() {
+    let activeSlide = document.querySelector(".slide.translate-x-0");
+    activeSlide.classList.remove("translate-x-0");
+    activeSlide.classList.add("translate-x-full");
+
+    let previousSlide = activeSlide.previousElementSibling;
+    previousSlide.classList.remove("-translate-x-full");
+    previousSlide.classList.add("translate-x-0");
+  }
 
   return (
     <div>
       <Navbar user="Alan" />
-      {/* <div className="p-8">
-        <div className="flex items-center ">
-          <input
-            className=" w-300 py-4 px-6 text-gray-700 "
-            id="search"
-            type="text"
-            onChange={(e) => {
-              setFilter(e.target.value);
-            }}
-            placeholder="Search"
-          />
-        </div>
-      </div> */}
+      <Carrosel />
 
-      <div className="flex justify-center m-10">
+      <div className=" fixed sr-onlyflex justify-center m-10">
         <button
-          className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded fixed bottom-0 right-0 m-5	"
+          className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded fixed bottom-0 right-2 m-20	"
           onClick={handleModalOpen}
         >
           +
         </button>
-
-        <div className=" border-b border-gray-200 sm:rounded-lg w-5/12  right-400">
-          <div className="card-group">
-            {data.map((item) => {
-              return (
-                <tr onClick={() => setInformation(item.id)}>
-                  <td>{item.text}</td>
-                </tr>
-              );
-            })}
-          </div>
-        </div>
 
         <Transition.Root show={open} as={Fragment}>
           <Dialog
