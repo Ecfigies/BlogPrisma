@@ -12,6 +12,7 @@ const Home = () => {
   const [information, setInformation] = useState([]);
   const [text, setText] = useState("");
   const [filter, setFilter] = useState("");
+  const [menuOpened, setMenuOpened] = useState<boolean>(false);
   const cancelButtonRef = useRef(null);
 
   const handleSubmit = () => {
@@ -62,6 +63,13 @@ const Home = () => {
     previousSlide.classList.remove("-translate-x-full");
     previousSlide.classList.add("translate-x-0");
   }
+
+  let menuRef = useRef<HTMLDivElement | null>(null);
+  document.addEventListener("click", (event) => {
+    if (!menuRef.current?.contains(event.target as Node)) {
+      setMenuOpened(false);
+    }
+  });
 
   return (
     <div>
